@@ -1,0 +1,1 @@
+problem: thread wird unterbrochen und damit bekommt die distanz einen timeout und wird zu 0
