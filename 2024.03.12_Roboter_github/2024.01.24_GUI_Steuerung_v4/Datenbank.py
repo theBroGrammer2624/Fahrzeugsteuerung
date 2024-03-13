@@ -39,7 +39,7 @@ def auslesen():
     cursor.execute("SELECT id, datum, sensor1, sensor2, sensor3 FROM zeitstempel")
     daten = cursor.fetchall()
     conn.close()
-    anzeige = "\n".join(f"{id}: {datum}, Sensor1: {s1}, Sensor2: {s2}, Sensor3: {s3}" 
+    anzeige = "\n\n".join(f"{id}: {datum}, Distanz: {s1}" 
                         for id, datum, s1, s2, s3 in daten)
     messagebox.showinfo("Daten", anzeige)
 
