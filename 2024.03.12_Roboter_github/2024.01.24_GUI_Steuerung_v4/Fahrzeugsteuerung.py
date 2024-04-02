@@ -35,8 +35,8 @@ fenster.geometry("1350x900")
 # Globale Variablen
 drive2nextObjRunning = False
 threadSleep = False
-servoWinkel = 110
-servoBeißzange = 0
+servoWinkel = 75
+servoBeißzange = 88
 PWM=Motor()
 servo=Servo()
 
@@ -250,28 +250,32 @@ def key_pressed(event): #Wird mehrmals aufgerufen wenn eine Taste gedrückt ist
         time.sleep(0.001)
     # Servo Tastatursteuerung
     if key == 'r':
-        servoWinkel += 5
-        if servoWinkel > 180:
-            servoWinkel = 180
+        servoWinkel += 1
+        if servoWinkel > 140:
+            servoWinkel = 140
         servo.setServoPwm('0',servoWinkel)  # nach oben
+
         time.sleep(0.01)
     elif key == 'f':
-        servoWinkel -= 5
-        if servoWinkel < 120:
-            servoWinkel = 120
+        servoWinkel -= 1
+        if servoWinkel < 75:
+            servoWinkel = 75
         servo.setServoPwm('0',servoWinkel)  # nach unten
-        time.sleep(0.01)
+        
+        time.sleep(0.02)
     elif key == 'g':
         servoBeißzange += 6
-        if servoBeißzange > 190:
-            servoBeißzange = 190
+        if servoBeißzange > 208:
+            servoBeißzange = 208
         servo.setServoPwm('1',servoBeißzange) #Beißzange zu
+        print('ServoWinkel:', servoBeißzange)
         time.sleep(0.01)
     elif key == 't':
         servoBeißzange -= 6
-        if servoBeißzange < 0:
-            servoBeißzange = 0
+        if servoBeißzange < 88:
+            servoBeißzange = 88
         servo.setServoPwm('1',servoBeißzange) # Beißzange auf
+        print('ServoWinkel:', servoBeißzange)
         time.sleep(0.01)
 
 
@@ -297,7 +301,7 @@ def programm_ende():
     servo=Servo()
     global servoWinkel
     PWM.setMotorModel(0, 0)  # Motor stoppen
-    for servoWinkel in range(servoWinkel, 100, -1):
+    for servoWinkel in range(servoWinkel, 75, -1):
         servo.setServoPwm('0',servoWinkel)
         time.sleep(0.01)
     servo.PwmServo.set_PWM_dutycycle(servo.channel1,0)
@@ -355,8 +359,9 @@ def programmstart():
     print("Das Programm wurde gestartet!")
     servo=Servo()
     global servoWinkel
-    for servoWinkel in range(110, 181):
+    for servoWinkel in range(75, 140):
         servo.setServoPwm('0',servoWinkel)
+        print('ServoWinkel:', servoWinkel)
         time.sleep(0.01)
     servo.setServoPwm('1',servoBeißzange) #Zu
 

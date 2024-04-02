@@ -20,17 +20,17 @@ class Servo:
         self.PwmServo.set_PWM_range(self.channel3, 4000)
     def angle_range(self,channel,init_angle):
         if channel=='0':
-            if init_angle<120 :
-                init_angle=120
-            elif init_angle>180 :
-                init_angle=180
+            if init_angle<75 :
+                init_angle=75
+            elif init_angle>140 :
+                init_angle=140
             else:
                 init_angle=init_angle
         elif channel=='1':
-            if init_angle<0 :
-                init_angle=0
-            elif init_angle>190 :
-                init_angle=190
+            if init_angle<88 :
+                init_angle=88
+            elif init_angle>208 :
+                init_angle=208
             else:
                 init_angle=init_angle
         elif channel=='2':
