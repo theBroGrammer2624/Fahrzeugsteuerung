@@ -28,6 +28,8 @@ from Motor import *
 
 import threading
 
+import os
+
 fenster = Tk()
 fenster.title("RPi Fahrzeug")
 fenster.geometry("1350x900")
@@ -88,6 +90,12 @@ def distanzFoto(): # Distanz+Foto
         bild = PhotoImage(file="captured_image.gif")
         labelbild = Label(fenster, image=bild)
         labelbild.place(x=700, y=300, width=640, height=480)
+
+        #delete created images
+        os.remove("./captured_image.jpg")
+        time.sleep(0.005)
+        os.remove("./captured_image.gif")
+        time.sleep(0.005)
 
         #SQL Distanz speichern
         Datenbank.init_db()
@@ -268,14 +276,14 @@ def key_pressed(event): #Wird mehrmals aufgerufen wenn eine Taste gedrückt ist
         if servoBeißzange > 208:
             servoBeißzange = 208
         servo.setServoPwm('1',servoBeißzange) #Beißzange zu
-        print('ServoWinkel:', servoBeißzange)
+        #print('ServoWinkel:', servoBeißzange)
         time.sleep(0.01)
     elif key == 't':
         servoBeißzange -= 6
         if servoBeißzange < 88:
             servoBeißzange = 88
         servo.setServoPwm('1',servoBeißzange) # Beißzange auf
-        print('ServoWinkel:', servoBeißzange)
+        #print('ServoWinkel:', servoBeißzange)
         time.sleep(0.01)
 
 
@@ -361,7 +369,7 @@ def programmstart():
     global servoWinkel
     for servoWinkel in range(75, 140):
         servo.setServoPwm('0',servoWinkel)
-        print('ServoWinkel:', servoWinkel)
+        #print('ServoWinkel:', servoWinkel)
         time.sleep(0.01)
     servo.setServoPwm('1',servoBeißzange) #Zu
 
