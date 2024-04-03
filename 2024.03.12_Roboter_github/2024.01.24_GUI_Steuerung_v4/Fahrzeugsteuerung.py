@@ -1,34 +1,30 @@
 from tkinter import ttk
 from tkinter import *
 import RPi.GPIO as GPIO
-import time
-import threading
 import pigpio
+
 import Datenbank
 from Datenbank import auslesen
 
 from picamera2 import Picamera2, Preview
 from libcamera import Transform
 from PIL import ImageTk
-
 from PIL import Image as i # Für die Bildumwandlung von jpg in gif
 
 from Ultrasonic import *
 from servo import *
+from Motor import *
 
 from datetime import datetime
+import time
 
 import sys
+import threading
+import os
 
 import line_trackingFreenove
 lineTracking=line_trackingFreenove.Line_Tracking()
 lnTrckgRunning = False
-
-from Motor import *
-
-import threading
-
-import os
 
 fenster = Tk()
 fenster.title("RPi Fahrzeug")
@@ -118,22 +114,6 @@ def clear():
 ██████  ██   ██ ██   ████   ███████     ███████     ██   ████ ███████ ██   ██    ██         ██████  ██████   █████  ███████  ██████    ██    
 """
 
-"""
-Lasse den Roboter bis ca. 10cm vor ein Objekt fahren.
-
-
-Code:
-PWM.setMotorModel(2000, 2000) #Lässt den Roboter Vorwaerts fahren
-PWM.setMotorModel(0, 0) #Stopt den Motor des Roboters
-
-distance = round(ultrasonic.get_distance(), 2) #die Distanz wird ausgelesen
-
-
-
-
-Zusatz:
-bar["value"] = clamp((distance*2)-30, 0, 100) #die Variable "Distanz" wird in die Methode "clamp" als parameter übergeben, anschliesend wird die Progress bar geupdated
-"""
 
 def drive2nextObj():
     global drive2nextObjRunning
@@ -173,33 +153,6 @@ def drive2nextObjStop():
     global drive2nextObjRunning
     drive2nextObjRunning = False
 
-
-"""
-*********************THREAD TEST***********************
-def drive2nextObjTHREAD():
-    ultrasonic=Ultrasonic()
-    a = True
-    distance = 30
-    while a == True:
-        time.sleep(0.02)
-        distance = round(ultrasonic.get_distance(), 2)
-        time.sleep(0.01)
-        print('**drive2nextObj mit', distance, 'cm Distanz**')
-
-        if distance > 20:
-            PWM.setMotorModel(2000, 2000)
-            time.sleep(0.01)
-        else:
-            PWM.setMotorModel(0, 0)
-            a = False
-            print('a:',a)
-
-    distance2 = round(ultrasonic.get_distance(), 2)
-    time.sleep(0.01)
-    print('**drive2nextObj ENDE mit', distance2, 'cm Distanz**')
-
-"""
-    
 
 
 """
