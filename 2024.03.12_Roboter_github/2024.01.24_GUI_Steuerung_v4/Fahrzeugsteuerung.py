@@ -48,7 +48,10 @@ servo=Servo()
 """
 def distanzFoto(): # Distanz+Foto
         global bild
-        
+        global threadSleep #Stop barUpdateLoop Thread
+        threadSleep = True
+        time.sleep(0.025) #wait for barUpdate to finish
+
         # Distanzmessung
         ultrasonic=Ultrasonic()   
         data=ultrasonic.get_distance()   #Get the value
@@ -97,6 +100,8 @@ def distanzFoto(): # Distanz+Foto
         Datenbank.init_db()
         Datenbank.speichern(data)
         #Datenbank.auslesen()
+
+        threadSleep = False     # Start barUpdateLoop Thread
 
 def clear():
         global bild
