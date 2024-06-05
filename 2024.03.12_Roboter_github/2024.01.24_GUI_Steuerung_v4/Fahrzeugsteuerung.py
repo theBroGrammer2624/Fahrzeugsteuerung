@@ -369,10 +369,7 @@ def barUpdateLoop():
 
 
 
-
-
-
-
+#**********Tracking**********
 def run_command(command):
     try:
         result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
@@ -396,13 +393,6 @@ def tracking2():
     os.chdir(working_dir2)
     run_command(command2)
 
-
-    """
-    script_path2 = "/home/pi/Freenove_Tank_Robot_Kit_for_Raspberry_Pi/Code/Client/Main.py"
-    python_path = "/usr/bin/python3"
-    command2 = ["sudo", python_path, script_path2]
-    run_command(command2)"""
-
 def combined_tracking():
     global servoWinkel
     for servoWinkel in range(servoWinkel, 90, -1):
@@ -415,67 +405,6 @@ def combined_tracking():
     # Start both threads
     thread1.start()
     thread2.start()
-
-
-
-
-
-
-"""
-def tracking():
-    # Absoluter Pfad zu Ihrem Python-Skript
-    script_path = "/home/pi/Freenove_Tank_Robot_Kit_for_Raspberry_Pi/Code/Server/main.py"
-    # Absoluter Pfad zum Python-Interpreter
-    python_path = "/usr/bin/python3"  # Beispielpfad, bitte auf Ihren anpassen
-    # sudo-Befehl als Liste angeben
-    command = ["sudo", python_path, script_path]
-    try:
-        # Führen Sie den Befehl aus
-        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
-        print("Output:\n", result.stdout)
-        print("Error:\n", result.stderr)
-    except subprocess.CalledProcessError as e:
-        print(f"An error occurred: {e}")
-
-def tracking2():
-    # Absoluter Pfad zu Ihrem Python-Skript
-    script_path2 = "/home/pi/Freenove_Tank_Robot_Kit_for_Raspberry_Pi/Code/Client/Main.py"
-    # Absoluter Pfad zum Python-Interpreter
-    python_path2 = "/usr/bin/python3"  # Beispielpfad, bitte auf Ihren anpassen
-    # sudo-Befehl als Liste angeben
-    command2 = ["sudo", python_path2, script_path2]
-    try:
-        # Führen Sie den Befehl aus
-        result = subprocess.run(command2, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
-        print("Output:\n", result.stdout)
-        print("Error:\n", result.stderr)
-    except subprocess.CalledProcessError as e:
-        print(f"An error occurred: {e}")
-
-        
-
-
-    command = ["/home/pi/Freenove_Tank_Robot_Kit_for_Raspberry_Pi/Code/Server/main.py"]
-    # Run the command
-    try:
-        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
-        # Print the output
-        print("Output:\n", result.stdout)
-    except subprocess.CalledProcessError as e:
-        # Print the error message
-        print("Error:\n", e.stderr)
-
-
-        
-    command = ["cd", "~/Freenove_Tank_Robot_Kit_for_Raspberry_Pi/Code/Server"]
-    # Run the command
-    try:
-        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
-        # Print the output
-        print("Output:\n", result.stdout)
-    except subprocess.CalledProcessError as e:
-        # Print the error message
-        print("Error:\n", e.stderr)"""
 
 
 
