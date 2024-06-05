@@ -21,6 +21,7 @@ import time
 import sys
 import threading
 import os
+import subprocess
 
 import line_trackingFreenove
 lineTracking=line_trackingFreenove.Line_Tracking()
@@ -263,6 +264,7 @@ fenster.bind('<KeyRelease>', key_released)
 ██      ██   ██  ██████   ██████  ██   ██ ██   ██ ██      ██ ██      ██ ███████    ██    ██   ██ ██   ██    ██    ██     ███████ ██   ████ ██████  ███████ 
 """
 
+
 def programm_ende():
     servo=Servo()
     global servoWinkel
@@ -366,6 +368,117 @@ def barUpdateLoop():
             barUpdate()
 
 
+
+
+
+
+
+def run_command(command):
+    try:
+        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
+        print(f"Output of {' '.join(command)}:\n", result.stdout)
+        print(f"Error of {' '.join(command)}:\n", result.stderr)
+    except subprocess.CalledProcessError as e:
+        print(f"An error occurred: {e}")
+
+def tracking():
+    script_path1 = "/home/pi/Freenove_Tank_Robot_Kit_for_Raspberry_Pi/Code/Server/main.py"
+    python_path = "/usr/bin/python3"
+    command1 = ["sudo", python_path, script_path1]
+    run_command(command1)
+
+def tracking2():
+    script_path2 = "/home/pi/Freenove_Tank_Robot_Kit_for_Raspberry_Pi/Code/Client/Main.py"
+    working_dir2 = "/home/pi/Freenove_Tank_Robot_Kit_for_Raspberry_Pi/Code/Client"
+    python_path = "/usr/bin/python3"
+    command2 = ["sudo", python_path, script_path2]
+    # Wechseln Sie das Arbeitsverzeichnis für tracking2
+    os.chdir(working_dir2)
+    run_command(command2)
+
+
+    """
+    script_path2 = "/home/pi/Freenove_Tank_Robot_Kit_for_Raspberry_Pi/Code/Client/Main.py"
+    python_path = "/usr/bin/python3"
+    command2 = ["sudo", python_path, script_path2]
+    run_command(command2)"""
+
+def combined_tracking():
+    global servoWinkel
+    for servoWinkel in range(servoWinkel, 90, -1):
+        servo.setServoPwm('0',servoWinkel)
+        time.sleep(0.01)
+    # Create threads for each tracking function
+    thread1 = threading.Thread(target=tracking)
+    thread2 = threading.Thread(target=tracking2)
+    
+    # Start both threads
+    thread1.start()
+    thread2.start()
+
+
+
+
+
+
+"""
+def tracking():
+    # Absoluter Pfad zu Ihrem Python-Skript
+    script_path = "/home/pi/Freenove_Tank_Robot_Kit_for_Raspberry_Pi/Code/Server/main.py"
+    # Absoluter Pfad zum Python-Interpreter
+    python_path = "/usr/bin/python3"  # Beispielpfad, bitte auf Ihren anpassen
+    # sudo-Befehl als Liste angeben
+    command = ["sudo", python_path, script_path]
+    try:
+        # Führen Sie den Befehl aus
+        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
+        print("Output:\n", result.stdout)
+        print("Error:\n", result.stderr)
+    except subprocess.CalledProcessError as e:
+        print(f"An error occurred: {e}")
+
+def tracking2():
+    # Absoluter Pfad zu Ihrem Python-Skript
+    script_path2 = "/home/pi/Freenove_Tank_Robot_Kit_for_Raspberry_Pi/Code/Client/Main.py"
+    # Absoluter Pfad zum Python-Interpreter
+    python_path2 = "/usr/bin/python3"  # Beispielpfad, bitte auf Ihren anpassen
+    # sudo-Befehl als Liste angeben
+    command2 = ["sudo", python_path2, script_path2]
+    try:
+        # Führen Sie den Befehl aus
+        result = subprocess.run(command2, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
+        print("Output:\n", result.stdout)
+        print("Error:\n", result.stderr)
+    except subprocess.CalledProcessError as e:
+        print(f"An error occurred: {e}")
+
+        
+
+
+    command = ["/home/pi/Freenove_Tank_Robot_Kit_for_Raspberry_Pi/Code/Server/main.py"]
+    # Run the command
+    try:
+        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
+        # Print the output
+        print("Output:\n", result.stdout)
+    except subprocess.CalledProcessError as e:
+        # Print the error message
+        print("Error:\n", e.stderr)
+
+
+        
+    command = ["cd", "~/Freenove_Tank_Robot_Kit_for_Raspberry_Pi/Code/Server"]
+    # Run the command
+    try:
+        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
+        # Print the output
+        print("Output:\n", result.stdout)
+    except subprocess.CalledProcessError as e:
+        # Print the error message
+        print("Error:\n", e.stderr)"""
+
+
+
 ausgabe = Text(fenster, height=3, width=25)
 ausgabe.place(x=0, y=200)
 ausgabe.config(font=("Arial", 30))
@@ -374,7 +487,7 @@ start = Button(fenster, text="Distanz+Foto",activebackground="green", command=di
 start.place(x=20, y=130)
 start.config(font=("Arial",30))
 
-start = Button(fenster, text="Video",activebackground="green", command=distanzFoto)
+start = Button(fenster, text="Tracking/Video",activebackground="green", command=combined_tracking)
 start.place(x=20, y=400)
 start.config(font=("Arial",30))
 
