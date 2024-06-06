@@ -40,6 +40,25 @@ PWM=Motor()
 servo=Servo()
 
 
+
+
+
+# Hinzufügen der Punktanzeigen
+sensor_labels = []
+
+def create_sensor_labels():
+    for i in range(3):  # Angenommen, es gibt 5 Sensoren
+        label = Label(fenster, text=" ", bg="#ffffd4", width=2, height=1)
+        label.place(x=20 + i * 30, y=740)
+        sensor_labels.append(label)
+
+create_sensor_labels()
+
+
+
+
+
+
 """
 ██████  ██ ███████ ████████  █████  ███    ██ ███████     ███████  ██████  ████████  ██████  
 ██   ██ ██ ██         ██    ██   ██ ████   ██    ███      ██      ██    ██    ██    ██    ██ 
@@ -171,8 +190,18 @@ def drive2nextObjStop():
 def doAfterLine_Tracking():
     global lnTrckgRunning
     if lnTrckgRunning:
-        lineTracking.doing()
+        sensor_values = [False, False, False]
+        sensor_values = lineTracking.doing()
         fenster.after(25, doAfterLine_Tracking)
+
+        for i in range(3):
+            print("i==",i)
+            if sensor_values[i] == False:
+                sensor_labels[i].config(bg="#ff6500") #orange
+            else:
+                sensor_labels[i].config(bg="#ffffd4") #lightyellow
+
+
     else:
         print('**Line Tracking finished**')
         PWM.setMotorModel(0,0)

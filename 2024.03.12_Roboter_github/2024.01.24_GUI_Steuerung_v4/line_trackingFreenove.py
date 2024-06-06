@@ -16,6 +16,40 @@ class Line_Tracking:
         GPIO.setup(self.IR02,GPIO.IN)
         GPIO.setup(self.IR03,GPIO.IN)
         
+        #"""
+    def doing(self):
+        self.LMR=0x00
+        sensor_values = [False, False, False]  # Liste zur Speicherung der Sensorzustände
+        
+        if GPIO.input(self.IR01) == True:
+            sensor_values[0] = True
+            self.LMR = (self.LMR | 4)
+        if GPIO.input(self.IR02) == True:
+            sensor_values[1] = True
+            self.LMR = (self.LMR | 2)
+        if GPIO.input(self.IR03) == True:
+            sensor_values[2] = True
+            self.LMR = (self.LMR | 1)
+        
+        if self.LMR == 2:
+            PWM.setMotorModel(1200, 1200)
+        elif self.LMR == 4:
+            PWM.setMotorModel(-1500, 2500)
+        elif self.LMR == 6:
+            PWM.setMotorModel(-2000, 4000)
+        elif self.LMR == 1:
+            PWM.setMotorModel(2500, -1500)
+        elif self.LMR == 3:
+            PWM.setMotorModel(4000, -2000)
+        elif self.LMR == 7:
+            return sensor_values  # Rückgabe der Sensorwerte als Liste
+            pass
+        
+        return sensor_values  # Rückgabe der Sensorwerte als Liste
+
+#"""
+
+        """
     def doing(self):
         self.LMR=0x00
         if GPIO.input(self.IR01)==True:
@@ -36,6 +70,8 @@ class Line_Tracking:
             PWM.setMotorModel(4000,-2000)
         elif self.LMR==7:
             pass
+        
+        """
             #PWM.setMotorModel(0,0,0,0)
         #if is_running:
         #    fenster.after(100, Line_Tracking.doing)
